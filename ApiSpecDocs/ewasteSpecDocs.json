@@ -22,7 +22,7 @@
           "tags": [
             "ewaste-controller"
           ],
-          "summary": "ewasteRegistrationSearch",
+          "summary": "ewasteRegistrationSearch-addingtestingstring",
           "operationId": "ewasteRegistrationSearchUsingPOST",
           "consumes": [
             "application/json"
