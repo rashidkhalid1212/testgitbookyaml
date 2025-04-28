@@ -1,0 +1,538 @@
+---
+swagger: '2.0'
+info:
+  description: API details of Pet Registration service
+  version: '1.0'
+  title: Pet Registration API
+host: localhost:8080
+basePath: "/pet-services"
+tags:
+- name: pet-controller
+  description: Pet Controller
+paths:
+  "/pet-registration/_create":
+    post:
+      tags:
+      - pet-controller
+      summary: petRegistrationCreate
+      operationId: petRegistrationCreateUsingPOST
+      consumes:
+      - application/json
+      produces:
+      - "*/*"
+      parameters:
+      - in: body
+        name: petRegistrationRequest
+        description: Details for the new Pet Registration Application(s) + RequestInfo
+          meta data.
+        required: true
+        schema:
+          "$ref": "#/definitions/PetRegistrationRequest"
+      responses:
+        '200':
+          description: OK
+          schema:
+            "$ref": "#/definitions/PetRegistrationResponse"
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  "/pet-registration/_search":
+    post:
+      tags:
+      - pet-controller
+      summary: petRegistrationSearch
+      operationId: petRegistrationSearchUsingPOST
+      consumes:
+      - application/json
+      produces:
+      - "*/*"
+      parameters:
+      - name: applicationNumber
+        in: query
+        required: false
+        type: string
+      - name: applicationType
+        in: query
+        required: false
+        type: string
+      - name: breedType
+        in: query
+        required: false
+        type: string
+      - name: expireFlag
+        in: query
+        required: false
+        type: boolean
+      - name: fromDate
+        in: query
+        required: false
+        type: string
+      - name: ids
+        in: query
+        required: false
+        type: array
+        items:
+          type: string
+        collectionFormat: multi
+      - name: mobileNumber
+        in: query
+        required: false
+        type: string
+      - name: petType
+        in: query
+        required: false
+        type: string
+      - in: body
+        name: requestInfoWrapper
+        description: requestInfoWrapper
+        required: true
+        schema:
+          "$ref": "#/definitions/RequestInfoWrapper"
+      - name: status
+        in: query
+        required: false
+        type: string
+      - name: tenantId
+        in: query
+        required: false
+        type: string
+      - name: toDate
+        in: query
+        required: false
+        type: string
+      - name: validityDate
+        in: query
+        required: false
+        type: integer
+        format: int64
+      responses:
+        '200':
+          description: OK
+          schema:
+            "$ref": "#/definitions/PetRegistrationResponse"
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  "/pet-registration/_update":
+    post:
+      tags:
+      - pet-controller
+      summary: petRegistrationUpdate
+      operationId: petRegistrationUpdateUsingPOST
+      consumes:
+      - application/json
+      produces:
+      - "*/*"
+      parameters:
+      - in: body
+        name: petRegistrationRequest
+        description: Details for the new (s) + RequestInfo meta data.
+        required: true
+        schema:
+          "$ref": "#/definitions/PetRegistrationRequest"
+      responses:
+        '200':
+          description: OK
+          schema:
+            "$ref": "#/definitions/PetRegistrationResponse"
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  "/pet-registration/trigger-advance-notification":
+    post:
+      tags:
+      - pet-controller
+      summary: triggerAdvanceNotification
+      operationId: triggerAdvanceNotificationUsingPOST
+      consumes:
+      - application/json
+      produces:
+      - "*/*"
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: string
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  "/pet-registration/trigger-expire-petapplications":
+    post:
+      tags:
+      - pet-controller
+      summary: triggerWorkflowUpdate
+      operationId: triggerWorkflowUpdateUsingPOST
+      consumes:
+      - application/json
+      produces:
+      - "*/*"
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: string
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+definitions:
+  Address:
+    type: object
+    properties:
+      addressId:
+        type: string
+      addressLine1:
+        type: string
+      addressLine2:
+        type: string
+      addressNumber:
+        type: string
+      buildingName:
+        type: string
+      city:
+        type: string
+      detail:
+        type: string
+      doorNo:
+        type: string
+      id:
+        type: string
+      landmark:
+        type: string
+      latitude:
+        type: number
+        format: double
+      locality:
+        "$ref": "#/definitions/Boundary"
+      longitude:
+        type: number
+        format: double
+      pincode:
+        type: string
+      registrationId:
+        type: string
+      street:
+        type: string
+      tenantId:
+        type: string
+      type:
+        type: string
+    title: Address
+    description: 'Representation of a address. Individual APIs may choose to extend
+      from this using allOf if more details needed to be added in their case. '
+  AuditDetails:
+    type: object
+    properties:
+      createdBy:
+        type: string
+      createdTime:
+        type: integer
+        format: int64
+      lastModifiedBy:
+        type: string
+      lastModifiedTime:
+        type: integer
+        format: int64
+    title: AuditDetails
+  Boundary:
+    type: object
+    properties:
+      children:
+        type: array
+        items:
+          "$ref": "#/definitions/Boundary"
+      code:
+        type: string
+      label:
+        type: string
+      latitude:
+        type: string
+      longitude:
+        type: string
+      materializedPath:
+        type: string
+      name:
+        type: string
+    title: Boundary
+  Document:
+    type: object
+    properties:
+      active:
+        type: boolean
+      auditDetails:
+        "$ref": "#/definitions/AuditDetails"
+      documentType:
+        type: string
+      documentUid:
+        type: string
+      filestoreId:
+        type: string
+      id:
+        type: string
+      tenantId:
+        type: string
+    title: Document
+  PetDetails:
+    type: object
+    properties:
+      adoptionDate:
+        type: integer
+        format: int64
+      birthDate:
+        type: integer
+        format: int64
+      breedType:
+        type: string
+      clinicName:
+        type: string
+      doctorName:
+        type: string
+      id:
+        type: string
+      identificationMark:
+        type: string
+      lastVaccineDate:
+        type: string
+      petAge:
+        type: string
+      petColor:
+        type: string
+      petDetailsId:
+        type: string
+      petGender:
+        type: string
+      petName:
+        type: string
+      petType:
+        type: string
+      vaccinationNumber:
+        type: string
+    title: PetDetails
+    description: Details of the pet for pet registration
+  PetRegistrationApplication:
+    type: object
+    properties:
+      address:
+        "$ref": "#/definitions/Address"
+      applicantName:
+        type: string
+      applicationNumber:
+        type: string
+      applicationType:
+        type: string
+      auditDetails:
+        "$ref": "#/definitions/AuditDetails"
+      documents:
+        type: array
+        items:
+          "$ref": "#/definitions/Document"
+      emailId:
+        type: string
+      expireFlag:
+        type: boolean
+      fatherName:
+        type: string
+      id:
+        type: string
+      mobileNumber:
+        type: string
+      petDetails:
+        "$ref": "#/definitions/PetDetails"
+      petToken:
+        type: string
+      previousApplicationNumber:
+        type: string
+      propertyId:
+        type: string
+      renewalAuditDetails:
+        "$ref": "#/definitions/PetRenewalAuditDetails"
+      status:
+        type: string
+      tenantId:
+        type: string
+      validityDate:
+        type: integer
+        format: int64
+      workflow:
+        "$ref": "#/definitions/Workflow"
+    title: PetRegistrationApplication
+    description: A Object holds the basic data for a Pet Registration Application
+  PetRegistrationRequest:
+    type: object
+    properties:
+      PetRegistrationApplications:
+        type: array
+        items:
+          "$ref": "#/definitions/PetRegistrationApplication"
+      RequestInfo:
+        "$ref": "#/definitions/RequestInfo"
+    title: PetRegistrationRequest
+    description: Contract class to receive request. Array of  items are used in case
+      of create, whereas single  item is used for update
+  PetRegistrationResponse:
+    type: object
+    properties:
+      PetRegistrationApplications:
+        type: array
+        items:
+          "$ref": "#/definitions/PetRegistrationApplication"
+      ResponseInfo:
+        "$ref": "#/definitions/ResponseInfo"
+    title: PetRegistrationResponse
+    description: Contract class to send response. Array of  items are used in case
+      of search results or response for create, whereas single  item is used for update
+  PetRenewalAuditDetails:
+    type: object
+    properties:
+      applicationNumber:
+        type: string
+      expiryDate:
+        type: integer
+        format: int64
+      id:
+        type: string
+      petRegistrationId:
+        type: string
+      previousapplicationnumber:
+        type: string
+      renewalDate:
+        type: integer
+        format: int64
+      tokenNumber:
+        type: string
+    title: PetRenewalAuditDetails
+    description: Details of the renewal audit timeline details
+  RequestInfo:
+    type: object
+    properties:
+      apiId:
+        type: string
+      ver:
+        type: string
+      ts:
+        type: integer
+        format: int64
+      action:
+        type: string
+      did:
+        type: string
+      key:
+        type: string
+      msgId:
+        type: string
+      authToken:
+        type: string
+      correlationId:
+        type: string
+      userInfo:
+        "$ref": "#/definitions/User"
+    title: RequestInfo
+  RequestInfoWrapper:
+    type: object
+    properties:
+      RequestInfo:
+        "$ref": "#/definitions/RequestInfo"
+    title: RequestInfoWrapper
+  ResponseInfo:
+    type: object
+    properties:
+      apiId:
+        type: string
+      msgId:
+        type: string
+      resMsgId:
+        type: string
+      status:
+        type: string
+      ts:
+        type: integer
+        format: int64
+      ver:
+        type: string
+    title: ResponseInfo
+  Role:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      name:
+        type: string
+      code:
+        type: string
+      tenantId:
+        type: string
+    title: Role
+  User:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      userName:
+        type: string
+      name:
+        type: string
+      type:
+        type: string
+      mobileNumber:
+        type: string
+      emailId:
+        type: string
+      roles:
+        type: array
+        items:
+          "$ref": "#/definitions/Role"
+      tenantId:
+        type: string
+      uuid:
+        type: string
+    title: User
+  Workflow:
+    type: object
+    properties:
+      action:
+        type: string
+      assignes:
+        type: array
+        items:
+          type: string
+      comments:
+        type: string
+      documents:
+        type: array
+        items:
+          "$ref": "#/definitions/Document"
+      status:
+        type: string
+    title: Workflow
+    description: Fields related to workflow service
