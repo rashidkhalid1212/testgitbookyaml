@@ -1,0 +1,761 @@
+swagger: '2.0'
+info:
+  description: API details of the Advertisement service
+  version: '1.0'
+  title: Advertisement Booking API
+  license: {}
+host: 'localhost:8080'
+basePath: /adv-services
+tags:
+  - name: advertisement-service-api-controller
+    description: Operations related to Advertisement Booking
+paths:
+  /booking/v1/_estimate:
+    post:
+      tags:
+        - advertisement-service-api-controller
+      summary: v1GetEstimateDemand
+      operationId: v1GetEstimateDemandUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - in: body
+          name: estimationCriteria
+          description: Details for the advertisement booking for demand estimation
+          required: true
+          schema:
+            $ref: '#/definitions/AdvertisementDemandEstimationCriteria'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/AdvertisementDemandEstimationResponse'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /booking/v1/_search:
+    post:
+      tags:
+        - advertisement-service-api-controller
+      summary: v1SearchAdvertisement
+      operationId: v1SearchAdvertisementUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - in: body
+          name: requestInfoWrapper
+          description: requestInfoWrapper
+          required: true
+          schema:
+            $ref: '#/definitions/RequestInfoWrapper'
+        - name: tenantId
+          in: query
+          required: false
+          type: string
+        - name: bookingIds
+          in: query
+          required: false
+          type: array
+          items:
+            type: string
+          collectionFormat: multi
+        - name: status
+          in: query
+          required: false
+          type: string
+        - name: applicantName
+          in: query
+          required: false
+          type: string
+        - name: faceArea
+          in: query
+          required: false
+          type: string
+        - name: bookingNo
+          in: query
+          required: false
+          type: string
+        - name: mobileNumber
+          in: query
+          required: false
+          type: string
+        - name: offset
+          in: query
+          required: false
+          type: integer
+          format: int32
+        - name: limit
+          in: query
+          required: false
+          type: integer
+          format: int32
+        - name: fromDate
+          in: query
+          required: false
+          type: string
+        - name: toDate
+          in: query
+          required: false
+          type: string
+        - name: isDraftApplication
+          in: query
+          required: false
+          type: string
+        - name: createdBy
+          in: query
+          required: false
+          type: array
+          items:
+            type: string
+          collectionFormat: multi
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/AdvertisementResponse'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /booking/_deletedraft:
+    post:
+      tags:
+        - advertisement-service-api-controller
+      summary: advertisementDeleteDraft
+      operationId: advertisementDeleteDraftUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - in: body
+          name: requestInfoWrapper
+          description: Details for draft deletion + RequestInfo meta data.
+          required: true
+          schema:
+            $ref: '#/definitions/RequestInfoWrapper'
+        - name: draftId
+          in: query
+          description: draftId
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/AdvertisementResponse'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /booking/v1/_create:
+    post:
+      tags:
+        - advertisement-service-api-controller
+      summary: createBooking
+      operationId: createBookingUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - in: body
+          name: bookingRequest
+          description: 'Details for theadvertisement booking time, payment and documents'
+          required: true
+          schema:
+            $ref: '#/definitions/BookingRequest'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/AdvertisementResponse'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /booking/v1/_update:
+    post:
+      tags:
+        - advertisement-service-api-controller
+      summary: v1UpdateAdvertisementBooking
+      operationId: v1UpdateAdvertisementBookingUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - in: body
+          name: advertisementBookingRequest
+          description: Details for the new (s) + RequestInfo meta data.
+          required: true
+          schema:
+            $ref: '#/definitions/BookingRequest'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/AdvertisementResponse'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /booking/v1/_slot-search:
+    post:
+      tags:
+        - advertisement-service-api-controller
+      summary: v1GetAdvertisementSlotAvailablity
+      operationId: v1GetAdvertisementSlotAvailablityUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - in: body
+          name: slotSearchRequest
+          description: slotSearchRequest
+          required: true
+          schema:
+            $ref: '#/definitions/SlotSearchRequest'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/AdvertisementSlotAvailabilityResponse'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+definitions:
+  DemandDetail:
+    type: object
+    properties:
+      additionalDetails:
+        type: object
+      auditDetails:
+        $ref: '#/definitions/AuditDetails'
+      collectionAmount:
+        type: number
+        format: double
+      demandId:
+        type: string
+      id:
+        type: string
+      taxAmount:
+        type: number
+        format: double
+      taxHeadMasterCode:
+        type: string
+      tenantId:
+        type: string
+  User:
+    type: object
+    properties:
+      emailId:
+        type: string
+      id:
+        type: integer
+        format: int64
+      mobileNumber:
+        type: string
+      name:
+        type: string
+      roles:
+        type: array
+        items:
+          $ref: '#/definitions/Role'
+      tenantId:
+        type: string
+      type:
+        type: string
+      userName:
+        type: string
+      uuid:
+        type: string
+  Address:
+    type: object
+    properties:
+      addressId:
+        type: string
+      addressLine1:
+        type: string
+      addressLine2:
+        type: string
+      applicantDetailId:
+        type: string
+      city:
+        type: string
+      cityCode:
+        type: string
+      doorNo:
+        type: string
+      houseNo:
+        type: string
+      landmark:
+        type: string
+      locality:
+        type: string
+      localityCode:
+        type: string
+      pincode:
+        type: string
+      streetName:
+        type: string
+    description: >-
+      Representation of a address. Indiavidual APIs may choose to extend from
+      this using allOf if more details needed to be added in their case. 
+  BookingDetail:
+    type: object
+    properties:
+      address:
+        $ref: '#/definitions/Address'
+      applicantDetail:
+        $ref: '#/definitions/ApplicantDetail'
+      applicationDate:
+        type: integer
+        format: int64
+      auditDetails:
+        $ref: '#/definitions/AuditDetails'
+      bookingId:
+        type: string
+      bookingNo:
+        type: string
+      bookingStatus:
+        type: string
+      cartDetails:
+        type: array
+        items:
+          $ref: '#/definitions/CartDetail'
+      documents:
+        type: array
+        items:
+          $ref: '#/definitions/DocumentDetail'
+      draftId:
+        type: string
+      paymentDate:
+        type: integer
+        format: int64
+      paymentReceiptFilestoreId:
+        type: string
+      permissionLetterFilestoreId:
+        type: string
+      receiptNo:
+        type: string
+      tenantId:
+        type: string
+    description: Details for new booking of advertisement
+  RequestInfo:
+    type: object
+    properties:
+      action:
+        type: string
+      apiId:
+        type: string
+      authToken:
+        type: string
+      correlationId:
+        type: string
+      did:
+        type: string
+      key:
+        type: string
+      msgId:
+        type: string
+      plainAccessRequest:
+        $ref: '#/definitions/PlainAccessRequest'
+      ts:
+        type: integer
+        format: int64
+      userInfo:
+        $ref: '#/definitions/User'
+      ver:
+        type: string
+  LocalDate:
+    type: object
+    properties:
+      chronology:
+        $ref: '#/definitions/IsoChronology'
+      dayOfMonth:
+        type: integer
+        format: int32
+      dayOfWeek:
+        type: string
+        enum:
+          - MONDAY
+          - TUESDAY
+          - WEDNESDAY
+          - THURSDAY
+          - FRIDAY
+          - SATURDAY
+          - SUNDAY
+      dayOfYear:
+        type: integer
+        format: int32
+      era:
+        $ref: '#/definitions/Era'
+      leapYear:
+        type: boolean
+      month:
+        type: string
+        enum:
+          - JANUARY
+          - FEBRUARY
+          - MARCH
+          - APRIL
+          - MAY
+          - JUNE
+          - JULY
+          - AUGUST
+          - SEPTEMBER
+          - OCTOBER
+          - NOVEMBER
+          - DECEMBER
+      monthValue:
+        type: integer
+        format: int32
+      year:
+        type: integer
+        format: int32
+  AdvertisementSlotAvailabilityResponse:
+    type: object
+    properties:
+      advertisementSlotAvailabiltityDetails:
+        type: array
+        items:
+          $ref: '#/definitions/AdvertisementSlotAvailabilityDetail'
+      count:
+        type: integer
+        format: int32
+      draftId:
+        type: string
+      responseInfo:
+        $ref: '#/definitions/ResponseInfo'
+      slotBooked:
+        type: boolean
+    description: A Object holds the advertisements slot avaialabiltiy details
+  BookingRequest:
+    type: object
+    properties:
+      RequestInfo:
+        $ref: '#/definitions/RequestInfo'
+      bookingApplication:
+        $ref: '#/definitions/BookingDetail'
+      isDraftApplication:
+        type: boolean
+    description: Request object for creating new booking of Advertisemnets
+  RequestInfoWrapper:
+    type: object
+    properties:
+      RequestInfo:
+        $ref: '#/definitions/RequestInfo'
+  AdvertisementSlotSearchCriteria:
+    type: object
+    properties:
+      addType:
+        type: string
+      bookingEndDate:
+        type: string
+      bookingId:
+        type: string
+      bookingStartDate:
+        type: string
+      draftId:
+        type: string
+      faceArea:
+        type: string
+      isTimerRequired:
+        type: boolean
+      location:
+        type: string
+      multipleSlotsAvaialable:
+        type: boolean
+      nightLight:
+        type: boolean
+      tenantId:
+        type: string
+  ApplicantDetail:
+    type: object
+    properties:
+      applicantAlternateMobileNo:
+        type: string
+      applicantDetailId:
+        type: string
+      applicantEmailId:
+        type: string
+      applicantMobileNo:
+        type: string
+      applicantName:
+        type: string
+      auditDetails:
+        $ref: '#/definitions/AuditDetails'
+      bookingId:
+        type: string
+    description: Details of the advertisement booking
+  PlainAccessRequest:
+    type: object
+    properties:
+      plainRequestFields:
+        type: array
+        items:
+          type: string
+      recordId:
+        type: string
+  ResponseInfo:
+    type: object
+    properties:
+      apiId:
+        type: string
+      msgId:
+        type: string
+      resMsgId:
+        type: string
+      status:
+        type: string
+        enum:
+          - SUCCESSFUL
+          - FAILED
+      ts:
+        type: integer
+        format: int64
+      ver:
+        type: string
+    description: >-
+      ResponseInfo should be used to carry metadata information about the
+      response from the server. apiId, ver and msgId in ResponseInfo should
+      always correspond to the same values in respective request's RequestInfo.
+  Demand:
+    type: object
+    properties:
+      additionalDetails:
+        type: object
+      auditDetails:
+        $ref: '#/definitions/AuditDetails'
+      businessService:
+        type: string
+      consumerCode:
+        type: string
+      consumerType:
+        type: string
+      demandDetails:
+        type: array
+        items:
+          $ref: '#/definitions/DemandDetail'
+      id:
+        type: string
+      minimumAmountPayable:
+        type: number
+        format: double
+      payer:
+        $ref: '#/definitions/User'
+      status:
+        type: string
+        enum:
+          - ACTIVE
+          - CANCELLED
+          - ADJUSTED
+      taxPeriodFrom:
+        type: integer
+        format: int64
+      taxPeriodTo:
+        type: integer
+        format: int64
+      tenantId:
+        type: string
+  AdvertisementSlotAvailabilityDetail:
+    type: object
+    properties:
+      addType:
+        type: string
+      bookingDate:
+        type: string
+      bookingEndDate:
+        type: string
+      bookingId:
+        type: string
+      bookingStartDate:
+        type: string
+      faceArea:
+        type: string
+      location:
+        type: string
+      nightLight:
+        type: boolean
+      slotStaus:
+        type: string
+      tenantId:
+        type: string
+      timerValue:
+        type: integer
+        format: int64
+      uuid:
+        type: string
+    description: Details for slot availabiltity of advertisement booking
+  LocalTime:
+    type: object
+    properties:
+      hour:
+        type: integer
+        format: int32
+      minute:
+        type: integer
+        format: int32
+      nano:
+        type: integer
+        format: int32
+      second:
+        type: integer
+        format: int32
+  IsoChronology:
+    type: object
+    properties:
+      calendarType:
+        type: string
+      id:
+        type: string
+  SlotSearchRequest:
+    type: object
+    properties:
+      RequestInfo:
+        $ref: '#/definitions/RequestInfo'
+      advertisementSlotSearchCriteria:
+        type: array
+        items:
+          $ref: '#/definitions/AdvertisementSlotSearchCriteria'
+    description: Request object for creating new booking of Advertisemnets
+  Role:
+    type: object
+    properties:
+      code:
+        type: string
+      id:
+        type: integer
+        format: int64
+      name:
+        type: string
+      tenantId:
+        type: string
+  AdvertisementResponse:
+    type: object
+    properties:
+      ResponseInfo:
+        $ref: '#/definitions/ResponseInfo'
+      bookingApplication:
+        type: array
+        items:
+          $ref: '#/definitions/BookingDetail'
+      count:
+        type: integer
+        format: int32
+    description: >-
+      Contract class to send response. Array of  items are used in case of
+      search results or response for create, whereas single  item is used for
+      update
+  Era:
+    type: object
+    properties:
+      value:
+        type: integer
+        format: int32
+  DocumentDetail:
+    type: object
+    properties:
+      auditDetails:
+        $ref: '#/definitions/AuditDetails'
+      bookingId:
+        type: string
+      documentDetailId:
+        type: string
+      documentType:
+        type: string
+      fileStoreId:
+        type: string
+    description: Document details of uploaded documents
+  AuditDetails:
+    type: object
+    properties:
+      createdBy:
+        type: string
+      createdTime:
+        type: integer
+        format: int64
+      lastModifiedBy:
+        type: string
+      lastModifiedTime:
+        type: integer
+        format: int64
+    description: Collection of audit related fields used by most models
+  AdvertisementDemandEstimationResponse:
+    type: object
+    properties:
+      demands:
+        type: array
+        items:
+          $ref: '#/definitions/Demand'
+      responseInfo:
+        $ref: '#/definitions/ResponseInfo'
+    description: 'A Object holds the Demand estimation for adv '
+  AdvertisementDemandEstimationCriteria:
+    type: object
+    properties:
+      RequestInfo:
+        $ref: '#/definitions/RequestInfo'
+      cartDetails:
+        type: array
+        items:
+          $ref: '#/definitions/CartDetail'
+      tenantId:
+        type: string
+  CartDetail:
+    type: object
+    properties:
+      addType:
+        type: string
+      auditDetails:
+        $ref: '#/definitions/AuditDetails'
+      bookingDate:
+        $ref: '#/definitions/LocalDate'
+      bookingFromTime:
+        $ref: '#/definitions/LocalTime'
+      bookingId:
+        type: string
+      bookingToTime:
+        $ref: '#/definitions/LocalTime'
+      cartId:
+        type: string
+      faceArea:
+        type: string
+      location:
+        type: string
+      nightLight:
+        type: boolean
+      status:
+        type: string

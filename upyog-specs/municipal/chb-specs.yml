@@ -1,0 +1,1011 @@
+swagger: '2.0'
+info:
+  description: API details of community hall booking service
+  version: '1.0'
+  title: Community Hall Booking API
+  license: {}
+host: 'localhost:8080'
+basePath: /chb-services
+tags:
+  - name: community-hall-booking-controller
+    description: Community Hall Booking Controller
+paths:
+  /booking/v1/_estimate:
+    post:
+      tags:
+        - community-hall-booking-controller
+      summary: v1GetEstimateDemand
+      operationId: v1GetEstimateDemandUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - in: body
+          name: estimationCriteria
+          description: Details for the community halls booking for demand estimation
+          required: true
+          schema:
+            $ref: '#/definitions/CommunityHallDemandEstimationCriteria'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/CommunityHallDemandEstimationResponse'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /booking/v1/_init:
+    post:
+      tags:
+        - community-hall-booking-controller
+      summary: initBooking
+      operationId: initBookingUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - in: body
+          name: communityHallsBookingRequest
+          description: Details for the community halls booking time payment and documents
+          required: true
+          schema:
+            $ref: '#/definitions/CommunityHallBookingRequest'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/CommunityHallBookingResponse'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /booking/v1/_search:
+    post:
+      tags:
+        - community-hall-booking-controller
+      summary: v1SearchCommunityHallBooking
+      operationId: v1SearchCommunityHallBookingUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - in: body
+          name: requestInfoWrapper
+          description: requestInfoWrapper
+          required: true
+          schema:
+            $ref: '#/definitions/RequestInfoWrapper'
+        - name: tenantId
+          in: query
+          required: false
+          type: string
+        - name: bookingIds
+          in: query
+          required: false
+          type: array
+          items:
+            type: string
+          collectionFormat: multi
+        - name: status
+          in: query
+          required: false
+          type: string
+        - name: communityHallCode
+          in: query
+          required: false
+          type: string
+        - name: bookingNo
+          in: query
+          required: false
+          type: string
+        - name: mobileNumber
+          in: query
+          required: false
+          type: string
+        - name: offset
+          in: query
+          required: false
+          type: integer
+          format: int32
+        - name: limit
+          in: query
+          required: false
+          type: integer
+          format: int32
+        - name: fromDate
+          in: query
+          required: false
+          type: string
+        - name: toDate
+          in: query
+          required: false
+          type: string
+        - name: createdBy
+          in: query
+          required: false
+          type: array
+          items:
+            type: string
+          collectionFormat: multi
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/CommunityHallBookingResponse'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /booking/trigger-workflow-update:
+    get:
+      tags:
+        - community-hall-booking-controller
+      summary: triggerWorkflowUpdate
+      operationId: triggerWorkflowUpdateUsingGET
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: string
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    head:
+      tags:
+        - community-hall-booking-controller
+      summary: triggerWorkflowUpdate
+      operationId: triggerWorkflowUpdateUsingHEAD
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: string
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+    post:
+      tags:
+        - community-hall-booking-controller
+      summary: triggerWorkflowUpdate
+      operationId: triggerWorkflowUpdateUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: string
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    put:
+      tags:
+        - community-hall-booking-controller
+      summary: triggerWorkflowUpdate
+      operationId: triggerWorkflowUpdateUsingPUT
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: string
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    delete:
+      tags:
+        - community-hall-booking-controller
+      summary: triggerWorkflowUpdate
+      operationId: triggerWorkflowUpdateUsingDELETE
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: string
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+    options:
+      tags:
+        - community-hall-booking-controller
+      summary: triggerWorkflowUpdate
+      operationId: triggerWorkflowUpdateUsingOPTIONS
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: string
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+    patch:
+      tags:
+        - community-hall-booking-controller
+      summary: triggerWorkflowUpdate
+      operationId: triggerWorkflowUpdateUsingPATCH
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: string
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /booking/v1/_create:
+    post:
+      tags:
+        - community-hall-booking-controller
+      summary: createBooking
+      operationId: createBookingUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - in: body
+          name: communityHallsBookingRequest
+          description: Details for the community halls booking time payment and documents
+          required: true
+          schema:
+            $ref: '#/definitions/CommunityHallBookingRequest'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/CommunityHallBookingResponse'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /booking/v1/_update:
+    post:
+      tags:
+        - community-hall-booking-controller
+      summary: v1UpdateBooking
+      operationId: v1UpdateBookingUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - in: body
+          name: communityHallsBookingRequest
+          description: Details for the new (s) + RequestInfo meta data.
+          required: true
+          schema:
+            $ref: '#/definitions/CommunityHallBookingRequest'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/CommunityHallBookingResponse'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /booking/v1/_slot-search:
+    post:
+      tags:
+        - community-hall-booking-controller
+      summary: v1GetCommmunityHallSlotAvailablity
+      operationId: v1GetCommmunityHallSlotAvailablityUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - in: body
+          name: requestInfoWrapper
+          description: requestInfoWrapper
+          required: true
+          schema:
+            $ref: '#/definitions/RequestInfoWrapper'
+        - name: tenantId
+          in: query
+          required: false
+          type: string
+        - name: communityHallCode
+          in: query
+          required: false
+          type: string
+        - name: hallCode
+          in: query
+          required: false
+          type: string
+        - name: hallCodes
+          in: query
+          required: false
+          type: array
+          items:
+            type: string
+          collectionFormat: multi
+        - name: bookingStartDate
+          in: query
+          required: false
+          type: string
+        - name: bookingEndDate
+          in: query
+          required: false
+          type: string
+        - name: fromTime
+          in: query
+          required: false
+          type: string
+        - name: toTime
+          in: query
+          required: false
+          type: string
+        - name: isTimerRequired
+          in: query
+          required: false
+          type: boolean
+        - name: bookingId
+          in: query
+          required: false
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/CommunityHallSlotAvailabilityResponse'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+definitions:
+  DemandDetail:
+    type: object
+    properties:
+      additionalDetails:
+        type: object
+      auditDetails:
+        $ref: '#/definitions/AuditDetails'
+      collectionAmount:
+        type: number
+        format: double
+      demandId:
+        type: string
+      id:
+        type: string
+      taxAmount:
+        type: number
+        format: double
+      taxHeadMasterCode:
+        type: string
+      tenantId:
+        type: string
+  Action:
+    type: object
+    properties:
+      action:
+        type: string
+      auditDetails:
+        $ref: '#/definitions/AuditDetails'
+      currentState:
+        type: string
+      nextState:
+        type: string
+      roles:
+        type: array
+        items:
+          type: string
+      tenantId:
+        type: string
+      uuid:
+        type: string
+    description: A Object holds the basic data for a Building Plan
+  User:
+    type: object
+    properties:
+      emailId:
+        type: string
+      id:
+        type: integer
+        format: int64
+      mobileNumber:
+        type: string
+      name:
+        type: string
+      roles:
+        type: array
+        items:
+          $ref: '#/definitions/Role'
+      tenantId:
+        type: string
+      type:
+        type: string
+      userName:
+        type: string
+      uuid:
+        type: string
+  Address:
+    type: object
+    properties:
+      addressId:
+        type: string
+      addressLine1:
+        type: string
+      applicantDetailId:
+        type: string
+      city:
+        type: string
+      cityCode:
+        type: string
+      doorNo:
+        type: string
+      houseNo:
+        type: string
+      landmark:
+        type: string
+      locality:
+        type: string
+      localityCode:
+        type: string
+      pincode:
+        type: string
+      streetName:
+        type: string
+    description: >-
+      Representation of a address. Indiavidual APIs may choose to extend from
+      this using allOf if more details needed to be added in their case. 
+  CommunityHallSlotAvailabilityResponse:
+    type: object
+    properties:
+      count:
+        type: integer
+        format: int32
+      hallSlotAvailabiltityDetails:
+        type: array
+        items:
+          $ref: '#/definitions/CommunityHallSlotAvailabilityDetail'
+      responseInfo:
+        $ref: '#/definitions/ResponseInfo'
+      timerValue:
+        type: integer
+        format: int64
+    description: A Object holds the community halls slot avaialabiltiy details
+  RequestInfo:
+    type: object
+    properties:
+      action:
+        type: string
+      apiId:
+        type: string
+      authToken:
+        type: string
+      correlationId:
+        type: string
+      did:
+        type: string
+      key:
+        type: string
+      msgId:
+        type: string
+      plainAccessRequest:
+        $ref: '#/definitions/PlainAccessRequest'
+      ts:
+        type: integer
+        format: int64
+      userInfo:
+        $ref: '#/definitions/User'
+      ver:
+        type: string
+  LocalDate:
+    type: object
+    properties:
+      chronology:
+        $ref: '#/definitions/IsoChronology'
+      dayOfMonth:
+        type: integer
+        format: int32
+      dayOfWeek:
+        type: string
+        enum:
+          - MONDAY
+          - TUESDAY
+          - WEDNESDAY
+          - THURSDAY
+          - FRIDAY
+          - SATURDAY
+          - SUNDAY
+      dayOfYear:
+        type: integer
+        format: int32
+      era:
+        $ref: '#/definitions/Era'
+      leapYear:
+        type: boolean
+      month:
+        type: integer
+        format: int32
+      monthValue:
+        type: integer
+        format: int32
+      year:
+        type: integer
+        format: int32
+  CommunityHallSlotAvailabilityDetail:
+    type: object
+    properties:
+      bookingDate:
+        type: string
+      communityHallCode:
+        type: string
+      fromTime:
+        type: string
+      hallCode:
+        type: string
+      slotStaus:
+        type: string
+      tenantId:
+        type: string
+      toTime:
+        type: string
+    description: Details for slot availabiltity of community halls
+  CommunityHallBookingRequest:
+    type: object
+    properties:
+      RequestInfo:
+        $ref: '#/definitions/RequestInfo'
+      hallsBookingApplication:
+        $ref: '#/definitions/CommunityHallBookingDetail'
+    description: Request object for creating new booking of community halls
+  RequestInfoWrapper:
+    type: object
+    properties:
+      RequestInfo:
+        $ref: '#/definitions/RequestInfo'
+  SpecialCategory:
+    type: object
+    properties:
+      category:
+        type: string
+      discountRate:
+        type: integer
+        format: int32
+    description: Category of applicants for community hall booking
+  ApplicantDetail:
+    type: object
+    properties:
+      accountHolderName:
+        type: string
+      accountNumber:
+        type: string
+      applicantAlternateMobileNo:
+        type: string
+      applicantDetailId:
+        type: string
+      applicantEmailId:
+        type: string
+      applicantMobileNo:
+        type: string
+      applicantName:
+        type: string
+      auditDetails:
+        $ref: '#/definitions/AuditDetails'
+      bankBranchName:
+        type: string
+      bankName:
+        type: string
+      bookingId:
+        type: string
+      ifscCode:
+        type: string
+      refundStatus:
+        type: string
+      refundType:
+        type: string
+    description: Details of the community halls booking
+  PlainAccessRequest:
+    type: object
+    properties:
+      plainRequestFields:
+        type: array
+        items:
+          type: string
+      recordId:
+        type: string
+  CommunityHallBookingDetail:
+    type: object
+    properties:
+      address:
+        $ref: '#/definitions/Address'
+      applicantDetail:
+        $ref: '#/definitions/ApplicantDetail'
+      applicationDate:
+        type: integer
+        format: int64
+      auditDetails:
+        $ref: '#/definitions/AuditDetails'
+      bookingId:
+        type: string
+      bookingNo:
+        type: string
+      bookingSlotDetails:
+        type: array
+        items:
+          $ref: '#/definitions/BookingSlotDetail'
+      bookingStatus:
+        type: string
+      communityHallCode:
+        type: string
+      communityHallName:
+        type: string
+      documents:
+        type: array
+        items:
+          $ref: '#/definitions/DocumentDetail'
+      paymentDate:
+        type: integer
+        format: int64
+      paymentReceiptFilestoreId:
+        type: string
+      permissionLetterFilestoreId:
+        type: string
+      purpose:
+        $ref: '#/definitions/BookingPurpose'
+      purposeDescription:
+        type: string
+      receiptNo:
+        type: string
+      specialCategory:
+        $ref: '#/definitions/SpecialCategory'
+      tenantId:
+        type: string
+      timerValue:
+        type: integer
+        format: int64
+      workflow:
+        $ref: '#/definitions/ProcessInstance'
+    description: Details for new booking of community halls
+  ResponseInfo:
+    type: object
+    properties:
+      apiId:
+        type: string
+      msgId:
+        type: string
+      resMsgId:
+        type: string
+      status:
+        type: string
+        enum:
+          - SUCCESSFUL
+          - FAILED
+      ts:
+        type: integer
+        format: int64
+      ver:
+        type: string
+    description: >-
+      ResponseInfo should be used to carry metadata information about the
+      response from the server. apiId, ver and msgId in ResponseInfo should
+      always correspond to the same values in respective request's RequestInfo.
+  Demand:
+    type: object
+    properties:
+      additionalDetails:
+        type: object
+      auditDetails:
+        $ref: '#/definitions/AuditDetails'
+      businessService:
+        type: string
+      consumerCode:
+        type: string
+      consumerType:
+        type: string
+      demandDetails:
+        type: array
+        items:
+          $ref: '#/definitions/DemandDetail'
+      id:
+        type: string
+      minimumAmountPayable:
+        type: number
+        format: double
+      payer:
+        $ref: '#/definitions/User'
+      status:
+        type: string
+        enum:
+          - ACTIVE
+          - CANCELLED
+          - ADJUSTED
+      taxPeriodFrom:
+        type: integer
+        format: int64
+      taxPeriodTo:
+        type: integer
+        format: int64
+      tenantId:
+        type: string
+  BookingSlotDetail:
+    type: object
+    properties:
+      auditDetails:
+        $ref: '#/definitions/AuditDetails'
+      bookingDate:
+        $ref: '#/definitions/LocalDate'
+      bookingFromTime:
+        $ref: '#/definitions/LocalTime'
+      bookingId:
+        type: string
+      bookingToTime:
+        $ref: '#/definitions/LocalTime'
+      capacity:
+        type: string
+      hallCode:
+        type: string
+      slotId:
+        type: string
+      status:
+        type: string
+  LocalTime:
+    type: object
+    properties:
+      hour:
+        type: string
+        format: byte
+      minute:
+        type: string
+        format: byte
+      nano:
+        type: integer
+        format: int32
+      second:
+        type: string
+        format: byte
+  IsoChronology:
+    type: object
+    properties:
+      calendarType:
+        type: string
+      id:
+        type: string
+  BookingPurpose:
+    type: object
+    properties:
+      discountRate:
+        type: integer
+        format: int32
+      purpose:
+        type: string
+    description: Purpose for which community hall booking is allowed
+  Role:
+    type: object
+    properties:
+      code:
+        type: string
+      id:
+        type: integer
+        format: int64
+      name:
+        type: string
+      tenantId:
+        type: string
+  CommunityHallBookingResponse:
+    type: object
+    properties:
+      count:
+        type: integer
+        format: int32
+      hallsBookingApplication:
+        type: array
+        items:
+          $ref: '#/definitions/CommunityHallBookingDetail'
+      responseInfo:
+        $ref: '#/definitions/ResponseInfo'
+    description: A Object holds the community halls for booking
+  CommunityHallDemandEstimationResponse:
+    type: object
+    properties:
+      demands:
+        type: array
+        items:
+          $ref: '#/definitions/Demand'
+      responseInfo:
+        $ref: '#/definitions/ResponseInfo'
+    description: A Object holds the community halls slot avaialabiltiy details
+  Era:
+    type: object
+    properties:
+      value:
+        type: integer
+        format: int32
+  DocumentDetail:
+    type: object
+    properties:
+      auditDetails:
+        $ref: '#/definitions/AuditDetails'
+      bookingId:
+        type: string
+      documentDetailId:
+        type: string
+      documentType:
+        type: string
+      fileStoreId:
+        type: string
+    description: Document details of uploaded documents
+  State:
+    type: object
+    properties:
+      actions:
+        type: array
+        items:
+          $ref: '#/definitions/Action'
+      applicationStatus:
+        type: string
+      auditDetails:
+        $ref: '#/definitions/AuditDetails'
+      businessServiceId:
+        type: string
+      docUploadRequired:
+        type: boolean
+      isStartState:
+        type: boolean
+      isStateUpdatable:
+        type: boolean
+      isTerminateState:
+        type: boolean
+      sla:
+        type: integer
+        format: int64
+      state:
+        type: string
+      tenantId:
+        type: string
+      uuid:
+        type: string
+    description: A Object holds the basic data for a bpa
+  ProcessInstance:
+    type: object
+    properties:
+      action:
+        type: string
+      assignee:
+        $ref: '#/definitions/User'
+      assigner:
+        $ref: '#/definitions/User'
+      assignes:
+        type: array
+        items:
+          $ref: '#/definitions/User'
+      auditDetails:
+        $ref: '#/definitions/AuditDetails'
+      businessId:
+        type: string
+      businessService:
+        type: string
+      businesssServiceSla:
+        type: integer
+        format: int64
+      comment:
+        type: string
+      documents:
+        type: array
+        items:
+          $ref: '#/definitions/DocumentDetail'
+      entity:
+        type: object
+      id:
+        type: string
+      moduleName:
+        type: string
+      nextActions:
+        type: array
+        items:
+          $ref: '#/definitions/Action'
+      previousStatus:
+        type: string
+      state:
+        $ref: '#/definitions/State'
+      stateSla:
+        type: integer
+        format: int64
+      tenantId:
+        type: string
+  AuditDetails:
+    type: object
+    properties:
+      createdBy:
+        type: string
+      createdTime:
+        type: integer
+        format: int64
+      lastModifiedBy:
+        type: string
+      lastModifiedTime:
+        type: integer
+        format: int64
+    description: Collection of audit related fields used by most models
+  CommunityHallDemandEstimationCriteria:
+    type: object
+    properties:
+      RequestInfo:
+        $ref: '#/definitions/RequestInfo'
+      bookingSlotDetails:
+        type: array
+        items:
+          $ref: '#/definitions/BookingSlotDetail'
+      communityHallCode:
+        type: string
+      tenantId:
+        type: string
