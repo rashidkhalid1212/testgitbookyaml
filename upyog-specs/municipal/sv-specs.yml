@@ -1,0 +1,1034 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "API details of street vending service",
+    "version": "1.0",
+    "title": "Street Vending API",
+    "license": {
+
+    }
+  },
+  "host": "localhost:8080",
+  "basePath": "/sv-services",
+  "tags": [
+    {
+      "name": "street-vending-controller",
+      "description": "Street Vending Controller"
+    }
+  ],
+  "paths": {
+    "/street-vending/_deletedraft": {
+      "post": {
+        "tags": [
+          "street-vending-controller"
+        ],
+        "summary": "streetVendingDeleteDraft",
+        "operationId": "streetVendingDeleteDraftUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "requestInfoWrapper",
+            "description": "Details for draft deletion and RequestInfo meta data.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/RequestInfoWrapper"
+            }
+          },
+          {
+            "name": "draftId",
+            "in": "query",
+            "description": "draftId",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/StreetVendingResponse"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/street-vending/_create": {
+      "post": {
+        "tags": [
+          "street-vending-controller"
+        ],
+        "summary": "createStreetVendingApplication",
+        "operationId": "createStreetVendingApplicationUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "vendingRequest",
+            "description": "vendingRequest",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/StreetVendingRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/StreetVendingResponse"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/street-vending/trigger-expire-streetvendingapplications": {
+      "post": {
+        "tags": [
+          "street-vending-controller"
+        ],
+        "summary": "triggerWorkflowUpdate",
+        "operationId": "triggerWorkflowUpdateUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/street-vending/_search": {
+      "post": {
+        "tags": [
+          "street-vending-controller"
+        ],
+        "summary": "streetVendingSearch",
+        "operationId": "streetVendingSearchUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "requestInfoWrapper",
+            "description": "requestInfoWrapper",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/RequestInfoWrapper"
+            }
+          },
+          {
+            "name": "tenantId",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "isDraftApplication",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "applicationNumber",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "mobileNumber",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "vendingType",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "vendingZone",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "fromDate",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "toDate",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "createdBy",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "validityDate",
+            "in": "query",
+            "required": false,
+            "type": "ref"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/StreetVendingListResponse"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/street-vending/_update": {
+      "post": {
+        "tags": [
+          "street-vending-controller"
+        ],
+        "summary": "streetVendingUpdate",
+        "operationId": "streetVendingUpdateUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "vendingRequest",
+            "description": "Updated Street vending details and RequestInfo meta data.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/StreetVendingRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/StreetVendingResponse"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "ResponseInfo": {
+      "type": "object",
+      "properties": {
+        "apiId": {
+          "type": "string"
+        },
+        "msgId": {
+          "type": "string"
+        },
+        "resMsgId": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "SUCCESSFUL",
+            "FAILED"
+          ]
+        },
+        "ts": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "ver": {
+          "type": "string"
+        }
+      },
+      "description": "ResponseInfo should be used to carry metadata information about the response from the server. apiId, ver and msgId in ResponseInfo should always correspond to the same values in respective request's RequestInfo."
+    },
+    "User": {
+      "type": "object",
+      "properties": {
+        "emailId": {
+          "type": "string"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "mobileNumber": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "roles": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Role"
+          }
+        },
+        "tenantId": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "userName": {
+          "type": "string"
+        },
+        "uuid": {
+          "type": "string"
+        }
+      }
+    },
+    "Address": {
+      "type": "object",
+      "properties": {
+        "addressId": {
+          "type": "string"
+        },
+        "addressLine1": {
+          "type": "string"
+        },
+        "addressLine2": {
+          "type": "string"
+        },
+        "addressType": {
+          "type": "string"
+        },
+        "city": {
+          "type": "string"
+        },
+        "cityCode": {
+          "type": "string"
+        },
+        "doorNo": {
+          "type": "string"
+        },
+        "houseNo": {
+          "type": "string"
+        },
+        "landmark": {
+          "type": "string"
+        },
+        "locality": {
+          "type": "string"
+        },
+        "localityCode": {
+          "type": "string"
+        },
+        "pincode": {
+          "type": "string"
+        },
+        "streetName": {
+          "type": "string"
+        },
+        "vendorId": {
+          "type": "string"
+        }
+      },
+      "description": "Representation of a address. Indiavidual APIs may choose to extend from this using allOf if more details needed to be added in their case. "
+    },
+    "LocalTime": {
+      "type": "object",
+      "properties": {
+        "hour": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "minute": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "nano": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "second": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "Character": {
+      "type": "object"
+    },
+    "BankDetail": {
+      "type": "object",
+      "properties": {
+        "accountHolderName": {
+          "type": "string"
+        },
+        "accountNumber": {
+          "type": "string"
+        },
+        "applicationId": {
+          "type": "string"
+        },
+        "auditDetails": {
+          "$ref": "#/definitions/AuditDetails"
+        },
+        "bankBranchName": {
+          "type": "string"
+        },
+        "bankName": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "ifscCode": {
+          "type": "string"
+        },
+        "refundStatus": {
+          "type": "string"
+        },
+        "refundType": {
+          "type": "string"
+        }
+      },
+      "description": "Details of the bank details"
+    },
+    "StreetVendingDetail": {
+      "type": "object",
+      "properties": {
+        "addressDetails": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Address"
+          }
+        },
+        "applicationDate": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "applicationId": {
+          "type": "string"
+        },
+        "applicationNo": {
+          "type": "string"
+        },
+        "applicationStatus": {
+          "type": "string"
+        },
+        "approvalDate": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "auditDetails": {
+          "$ref": "#/definitions/AuditDetails"
+        },
+        "bankDetail": {
+          "$ref": "#/definitions/BankDetail"
+        },
+        "benificiaryOfSocialSchemes": {
+          "type": "string"
+        },
+        "cartLatitude": {
+          "type": "number",
+          "format": "double"
+        },
+        "cartLongitude": {
+          "type": "number",
+          "format": "double"
+        },
+        "certificateNo": {
+          "type": "string"
+        },
+        "disabilityStatus": {
+          "type": "string"
+        },
+        "documentDetails": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DocumentDetail"
+          }
+        },
+        "draftId": {
+          "type": "string"
+        },
+        "enrollmentId": {
+          "type": "string"
+        },
+        "expireFlag": {
+          "type": "boolean"
+        },
+        "financialYear": {
+          "type": "string"
+        },
+        "issuedDate": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "localAuthorityName": {
+          "type": "string"
+        },
+        "oldApplicationNo": {
+          "type": "string"
+        },
+        "paymentReceiptId": {
+          "type": "string"
+        },
+        "renewalStatus": {
+          "type": "string",
+          "enum": [
+            "ELIGIBLE_TO_RENEW",
+            "RENEW_IN_PROGRESS",
+            "RENEW_APPLICATION_CREATED",
+            "RENEWED"
+          ]
+        },
+        "tenantId": {
+          "type": "string"
+        },
+        "termsAndCondition": {
+          "type": "string"
+        },
+        "tradeLicenseNo": {
+          "type": "string"
+        },
+        "validFrom": {
+          "type": "string"
+        },
+        "validTo": {
+          "type": "string"
+        },
+        "validityDate": {
+          "$ref": "#/definitions/LocalDate"
+        },
+        "validityDateForPersisterDate": {
+          "type": "string"
+        },
+        "vendingActivity": {
+          "type": "string"
+        },
+        "vendingArea": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "vendingLicenseCertificateId": {
+          "type": "string"
+        },
+        "vendingLicenseId": {
+          "type": "string"
+        },
+        "vendingOperationTimeDetails": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/VendingOperationTimeDetails"
+          }
+        },
+        "vendingZone": {
+          "type": "string"
+        },
+        "vendorDetail": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/VendorDetail"
+          }
+        },
+        "workflow": {
+          "$ref": "#/definitions/Workflow"
+        }
+      }
+    },
+    "Workflow": {
+      "type": "object",
+      "properties": {
+        "action": {
+          "type": "string"
+        },
+        "assignes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "businessService": {
+          "type": "string"
+        },
+        "comments": {
+          "type": "string"
+        },
+        "documents": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Document"
+          }
+        },
+        "moduleName": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        }
+      },
+      "description": "Represents a workflow object used for tracking actions, status, and related details in the street vending application process."
+    },
+    "IsoChronology": {
+      "type": "object",
+      "properties": {
+        "calendarType": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        }
+      }
+    },
+    "VendingOperationTimeDetails": {
+      "type": "object",
+      "properties": {
+        "applicationId": {
+          "type": "string"
+        },
+        "auditDetails": {
+          "$ref": "#/definitions/AuditDetails"
+        },
+        "dayOfWeek": {
+          "type": "string",
+          "enum": [
+            "MONDAY",
+            "TUESDAY",
+            "WEDNESDAY",
+            "THURSDAY",
+            "FRIDAY",
+            "SATURDAY",
+            "SUNDAY"
+          ]
+        },
+        "fromTime": {
+          "$ref": "#/definitions/LocalTime"
+        },
+        "id": {
+          "type": "string"
+        },
+        "toTime": {
+          "$ref": "#/definitions/LocalTime"
+        }
+      }
+    },
+    "Document": {
+      "type": "object",
+      "properties": {
+        "additionalDetails": {
+          "type": "object",
+          "description": "Json object to capture any extra information which is not accommodated by model"
+        },
+        "auditDetails": {
+          "$ref": "#/definitions/AuditDetails"
+        },
+        "documentType": {
+          "type": "string",
+          "description": "unique document type code, should be validated with document type master"
+        },
+        "documentUid": {
+          "type": "string",
+          "description": "The unique id(Pancard Number,Adhar etc.) of the given Document."
+        },
+        "fileStoreId": {
+          "type": "string",
+          "description": "File store reference key."
+        },
+        "id": {
+          "type": "string",
+          "description": "system id of the Document."
+        }
+      },
+      "description": "This object holds list of documents attached during the transaciton for a property"
+    },
+    "RequestInfo": {
+      "type": "object",
+      "properties": {
+        "action": {
+          "type": "string"
+        },
+        "apiId": {
+          "type": "string"
+        },
+        "authToken": {
+          "type": "string"
+        },
+        "correlationId": {
+          "type": "string"
+        },
+        "did": {
+          "type": "string"
+        },
+        "key": {
+          "type": "string"
+        },
+        "msgId": {
+          "type": "string"
+        },
+        "plainAccessRequest": {
+          "$ref": "#/definitions/PlainAccessRequest"
+        },
+        "ts": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "userInfo": {
+          "$ref": "#/definitions/User"
+        },
+        "ver": {
+          "type": "string"
+        }
+      }
+    },
+    "LocalDate": {
+      "type": "object",
+      "properties": {
+        "chronology": {
+          "$ref": "#/definitions/IsoChronology"
+        },
+        "dayOfMonth": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "dayOfWeek": {
+          "type": "string",
+          "enum": [
+            "MONDAY",
+            "TUESDAY",
+            "WEDNESDAY",
+            "THURSDAY",
+            "FRIDAY",
+            "SATURDAY",
+            "SUNDAY"
+          ]
+        },
+        "dayOfYear": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "era": {
+          "$ref": "#/definitions/Era"
+        },
+        "leapYear": {
+          "type": "boolean"
+        },
+        "month": {
+          "type": "string",
+          "enum": [
+            "JANUARY",
+            "FEBRUARY",
+            "MARCH",
+            "APRIL",
+            "MAY",
+            "JUNE",
+            "JULY",
+            "AUGUST",
+            "SEPTEMBER",
+            "OCTOBER",
+            "NOVEMBER",
+            "DECEMBER"
+          ]
+        },
+        "monthValue": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "year": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "StreetVendingResponse": {
+      "type": "object",
+      "properties": {
+        "ResponseInfo": {
+          "$ref": "#/definitions/ResponseInfo"
+        },
+        "SVDetail": {
+          "$ref": "#/definitions/StreetVendingDetail"
+        }
+      },
+      "description": "Store registration details"
+    },
+    "VendorDetail": {
+      "type": "object",
+      "properties": {
+        "applicationId": {
+          "type": "string"
+        },
+        "auditDetails": {
+          "$ref": "#/definitions/AuditDetails"
+        },
+        "dob": {
+          "type": "string"
+        },
+        "emailId": {
+          "type": "string"
+        },
+        "fatherName": {
+          "type": "string"
+        },
+        "gender": {
+          "$ref": "#/definitions/Character"
+        },
+        "id": {
+          "type": "string"
+        },
+        "isInvolved": {
+          "type": "boolean"
+        },
+        "mobileNo": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "relationshipType": {
+          "type": "string"
+        },
+        "specialCategory": {
+          "type": "string"
+        },
+        "userCategory": {
+          "type": "string"
+        },
+        "vendorId": {
+          "type": "string"
+        }
+      }
+    },
+    "Role": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        },
+        "tenantId": {
+          "type": "string"
+        }
+      }
+    },
+    "StreetVendingRequest": {
+      "type": "object",
+      "properties": {
+        "RequestInfo": {
+          "$ref": "#/definitions/RequestInfo"
+        },
+        "draftApplication": {
+          "type": "boolean"
+        },
+        "streetVendingDetail": {
+          "$ref": "#/definitions/StreetVendingDetail"
+        }
+      },
+      "description": "Contract class to receive request. Create str"
+    },
+    "Era": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "RequestInfoWrapper": {
+      "type": "object",
+      "properties": {
+        "RequestInfo": {
+          "$ref": "#/definitions/RequestInfo"
+        }
+      }
+    },
+    "DocumentDetail": {
+      "type": "object",
+      "properties": {
+        "applicationId": {
+          "type": "string"
+        },
+        "auditDetails": {
+          "$ref": "#/definitions/AuditDetails"
+        },
+        "documentDetailId": {
+          "type": "string"
+        },
+        "documentType": {
+          "type": "string"
+        },
+        "fileStoreId": {
+          "type": "string"
+        }
+      },
+      "description": "Document details of uploaded documents"
+    },
+    "AuditDetails": {
+      "type": "object",
+      "properties": {
+        "createdBy": {
+          "type": "string"
+        },
+        "createdTime": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "lastModifiedBy": {
+          "type": "string"
+        },
+        "lastModifiedTime": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "PlainAccessRequest": {
+      "type": "object",
+      "properties": {
+        "plainRequestFields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "recordId": {
+          "type": "string"
+        }
+      }
+    },
+    "StreetVendingListResponse": {
+      "type": "object",
+      "properties": {
+        "ResponseInfo": {
+          "$ref": "#/definitions/ResponseInfo"
+        },
+        "SVDetail": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StreetVendingDetail"
+          }
+        },
+        "count": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "description": "Store registration details"
+    }
+  }
+}
