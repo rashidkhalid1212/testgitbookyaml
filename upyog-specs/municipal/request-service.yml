@@ -1,0 +1,749 @@
+---
+swagger: '2.0'
+info:
+  description: API details of the Request service
+  version: '1.0'
+  title: Request Service API
+  license: {}
+host: localhost:8080
+basePath: "/request-service"
+tags:
+- name: request-service-controller
+  description: Request Service Controller
+paths:
+  "/mobile-toilet/v1/_update":
+    post:
+      tags:
+      - request-service-controller
+      summary: mobileToiletUpdate
+      operationId: mobileToiletUpdateUsingPOST
+      consumes:
+      - application/json
+      produces:
+      - "*/*"
+      parameters:
+      - in: body
+        name: mobileToiletRequest
+        description: Updated water tanker details and RequestInfo meta data.
+        required: true
+        schema:
+          "$ref": "#/definitions/MobileToiletBookingRequest"
+      responses:
+        '200':
+          description: OK
+          schema:
+            "$ref": "#/definitions/MobileToiletBookingResponse"
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  "/water-tanker/v1/_search":
+    post:
+      tags:
+      - request-service-controller
+      summary: searchWaterTankerBookingDetails
+      operationId: searchWaterTankerBookingDetailsUsingPOST
+      consumes:
+      - application/json
+      produces:
+      - "*/*"
+      parameters:
+      - in: body
+        name: requestInfoWrapper
+        description: Details for the water tanker booking time, payment and documents
+        required: true
+        schema:
+          "$ref": "#/definitions/RequestInfoWrapper"
+      - name: tenantId
+        in: query
+        required: false
+        type: string
+      - name: status
+        in: query
+        required: false
+        type: string
+      - name: bookingNo
+        in: query
+        required: false
+        type: string
+      - name: mobileNumber
+        in: query
+        required: false
+        type: string
+      - name: offset
+        in: query
+        required: false
+        type: integer
+        format: int32
+      - name: limit
+        in: query
+        required: false
+        type: integer
+        format: int32
+      - name: fromDate
+        in: query
+        required: false
+        type: string
+      - name: toDate
+        in: query
+        required: false
+        type: string
+      - name: createdBy
+        in: query
+        required: false
+        type: array
+        items:
+          type: string
+        collectionFormat: multi
+      responses:
+        '200':
+          description: OK
+          schema:
+            "$ref": "#/definitions/WaterTankerBookingSearchResponse"
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  "/water-tanker/v1/_create":
+    post:
+      tags:
+      - request-service-controller
+      summary: createWaterTankerBooking
+      operationId: createWaterTankerBookingUsingPOST
+      consumes:
+      - application/json
+      produces:
+      - "*/*"
+      parameters:
+      - in: body
+        name: waterTankerbookingRequest
+        description: Details for the water tanker booking time, payment and documents
+        required: true
+        schema:
+          "$ref": "#/definitions/WaterTankerBookingRequest"
+      responses:
+        '200':
+          description: OK
+          schema:
+            "$ref": "#/definitions/WaterTankerBookingResponse"
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  "/water-tanker/v1/_update":
+    post:
+      tags:
+      - request-service-controller
+      summary: waterTankerUpdate
+      operationId: waterTankerUpdateUsingPOST
+      consumes:
+      - application/json
+      produces:
+      - "*/*"
+      parameters:
+      - in: body
+        name: waterTankerRequest
+        description: Updated water tanker details and RequestInfo meta data.
+        required: true
+        schema:
+          "$ref": "#/definitions/WaterTankerBookingRequest"
+      responses:
+        '200':
+          description: OK
+          schema:
+            "$ref": "#/definitions/WaterTankerBookingResponse"
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  "/mobile-toilet/v1/_search":
+    post:
+      tags:
+      - request-service-controller
+      summary: searchMobileToiletBookingDetails
+      operationId: searchMobileToiletBookingDetailsUsingPOST
+      consumes:
+      - application/json
+      produces:
+      - "*/*"
+      parameters:
+      - in: body
+        name: requestInfoWrapper
+        description: Details for the Mobile Toilet booking time, payment and documents
+        required: true
+        schema:
+          "$ref": "#/definitions/RequestInfoWrapper"
+      - name: tenantId
+        in: query
+        required: false
+        type: string
+      - name: status
+        in: query
+        required: false
+        type: string
+      - name: bookingNo
+        in: query
+        required: false
+        type: string
+      - name: mobileNumber
+        in: query
+        required: false
+        type: string
+      - name: localityCode
+        in: query
+        required: false
+        type: string
+      - name: offset
+        in: query
+        required: false
+        type: integer
+        format: int32
+      - name: limit
+        in: query
+        required: false
+        type: integer
+        format: int32
+      - name: fromDate
+        in: query
+        required: false
+        type: string
+      - name: toDate
+        in: query
+        required: false
+        type: string
+      - name: createdBy
+        in: query
+        required: false
+        type: array
+        items:
+          type: string
+        collectionFormat: multi
+      responses:
+        '200':
+          description: OK
+          schema:
+            "$ref": "#/definitions/MobileToiletBookingSearchResponse"
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  "/mobile-toilet/v1/_create":
+    post:
+      tags:
+      - request-service-controller
+      summary: createMobileToiletBooking
+      operationId: createMobileToiletBookingUsingPOST
+      consumes:
+      - application/json
+      produces:
+      - "*/*"
+      parameters:
+      - in: body
+        name: mobileToiletbookingRequest
+        description: Details for the mobile Toilet booking time, payment and documents
+        required: true
+        schema:
+          "$ref": "#/definitions/MobileToiletBookingRequest"
+      responses:
+        '200':
+          description: OK
+          schema:
+            "$ref": "#/definitions/MobileToiletBookingResponse"
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+definitions:
+  ResponseInfo:
+    type: object
+    properties:
+      apiId:
+        type: string
+      msgId:
+        type: string
+      resMsgId:
+        type: string
+      status:
+        type: string
+        enum:
+        - SUCCESSFUL
+        - FAILED
+      ts:
+        type: integer
+        format: int64
+      ver:
+        type: string
+    description: ResponseInfo should be used to carry metadata information about the
+      response from the server. apiId, ver and msgId in ResponseInfo should always
+      correspond to the same values in respective request's RequestInfo.
+  User:
+    type: object
+    properties:
+      emailId:
+        type: string
+      id:
+        type: integer
+        format: int64
+      mobileNumber:
+        type: string
+      name:
+        type: string
+      roles:
+        type: array
+        items:
+          "$ref": "#/definitions/Role"
+      tenantId:
+        type: string
+      type:
+        type: string
+      userName:
+        type: string
+      uuid:
+        type: string
+  Address:
+    type: object
+    properties:
+      addressId:
+        type: string
+      addressLine1:
+        type: string
+      addressLine2:
+        type: string
+      applicantId:
+        type: string
+      city:
+        type: string
+      cityCode:
+        type: string
+      doorNo:
+        type: string
+      houseNo:
+        type: string
+      landmark:
+        type: string
+      locality:
+        type: string
+      localityCode:
+        type: string
+      pincode:
+        type: string
+      streetName:
+        type: string
+    description: 'Representation of a address. Indiavidual APIs may choose to extend
+      from this using allOf if more details needed to be added in their case. '
+  LocalTime:
+    type: object
+    properties:
+      hour:
+        type: integer
+        format: int32
+      minute:
+        type: integer
+        format: int32
+      nano:
+        type: integer
+        format: int32
+      second:
+        type: integer
+        format: int32
+  WaterTankerBookingResponse:
+    type: object
+    properties:
+      responseInfo:
+        "$ref": "#/definitions/ResponseInfo"
+      waterTankerBookingDetail:
+        "$ref": "#/definitions/WaterTankerBookingDetail"
+    description: A Object holds the water tanker for booking
+  WaterTankerBookingDetail:
+    type: object
+    properties:
+      address:
+        "$ref": "#/definitions/Address"
+      applicantDetail:
+        "$ref": "#/definitions/ApplicantDetail"
+      applicantUuid:
+        type: string
+      applicationDate:
+        type: integer
+        format: int64
+      auditDetails:
+        "$ref": "#/definitions/AuditDetails"
+      bookingCreatedBy:
+        type: string
+      bookingId:
+        type: string
+      bookingNo:
+        type: string
+      bookingStatus:
+        type: string
+      deliveryDate:
+        "$ref": "#/definitions/LocalDate"
+      deliveryTime:
+        "$ref": "#/definitions/LocalTime"
+      description:
+        type: string
+      driverId:
+        type: string
+      extraCharge:
+        type: string
+      paymentDate:
+        type: integer
+        format: int64
+      paymentReceiptFilestoreId:
+        type: string
+      permissionLetterFilestoreId:
+        type: string
+      receiptNo:
+        type: string
+      tankerQuantity:
+        type: integer
+        format: int32
+      tankerType:
+        type: string
+      tenantId:
+        type: string
+      vehicleCapacity:
+        type: string
+      vehicleId:
+        type: string
+      vehicleType:
+        type: string
+      vendorId:
+        type: string
+      waterQuantity:
+        type: integer
+        format: int32
+      workflow:
+        "$ref": "#/definitions/Workflow"
+    description: Details for new booking of Water Tanker
+  Workflow:
+    type: object
+    properties:
+      action:
+        type: string
+      assignes:
+        type: array
+        items:
+          type: string
+      businessService:
+        type: string
+      comments:
+        type: string
+      documents:
+        type: array
+        items:
+          "$ref": "#/definitions/Document"
+      moduleName:
+        type: string
+      rating:
+        type: integer
+        format: int32
+      status:
+        type: string
+    description: BPA application object to capture the details of land, land owners,
+      and address of the land.
+  IsoChronology:
+    type: object
+    properties:
+      calendarType:
+        type: string
+      id:
+        type: string
+  Document:
+    type: object
+    properties:
+      additionalDetails:
+        type: object
+        description: Json object to capture any extra information which is not accommodated
+          by model
+      auditDetails:
+        "$ref": "#/definitions/AuditDetails"
+      documentType:
+        type: string
+        description: unique document type code, should be validated with document
+          type master
+      documentUid:
+        type: string
+        description: The unique id(Pancard Number,Adhar etc.) of the given Document.
+      fileStoreId:
+        type: string
+        description: File store reference key.
+      id:
+        type: string
+        description: system id of the Document.
+    description: This object holds list of documents attached during the transaciton
+      for a property
+  RequestInfo:
+    type: object
+    properties:
+      action:
+        type: string
+      apiId:
+        type: string
+      authToken:
+        type: string
+      correlationId:
+        type: string
+      did:
+        type: string
+      key:
+        type: string
+      msgId:
+        type: string
+      plainAccessRequest:
+        "$ref": "#/definitions/PlainAccessRequest"
+      ts:
+        type: integer
+        format: int64
+      userInfo:
+        "$ref": "#/definitions/User"
+      ver:
+        type: string
+  LocalDate:
+    type: object
+    properties:
+      chronology:
+        "$ref": "#/definitions/IsoChronology"
+      dayOfMonth:
+        type: integer
+        format: int32
+      dayOfWeek:
+        type: string
+        enum:
+        - MONDAY
+        - TUESDAY
+        - WEDNESDAY
+        - THURSDAY
+        - FRIDAY
+        - SATURDAY
+        - SUNDAY
+      dayOfYear:
+        type: integer
+        format: int32
+      era:
+        "$ref": "#/definitions/Era"
+      leapYear:
+        type: boolean
+      month:
+        type: string
+        enum:
+        - JANUARY
+        - FEBRUARY
+        - MARCH
+        - APRIL
+        - MAY
+        - JUNE
+        - JULY
+        - AUGUST
+        - SEPTEMBER
+        - OCTOBER
+        - NOVEMBER
+        - DECEMBER
+      monthValue:
+        type: integer
+        format: int32
+      year:
+        type: integer
+        format: int32
+  MobileToiletBookingSearchResponse:
+    type: object
+    properties:
+      ResponseInfo:
+        "$ref": "#/definitions/ResponseInfo"
+      count:
+        type: integer
+        format: int32
+      mobileToiletBookingDetails:
+        type: array
+        items:
+          "$ref": "#/definitions/MobileToiletBookingDetail"
+    description: Store booking details
+  Role:
+    type: object
+    properties:
+      code:
+        type: string
+      id:
+        type: integer
+        format: int64
+      name:
+        type: string
+      tenantId:
+        type: string
+  WaterTankerBookingSearchResponse:
+    type: object
+    properties:
+      ResponseInfo:
+        "$ref": "#/definitions/ResponseInfo"
+      count:
+        type: integer
+        format: int32
+      waterTankerBookingDetail:
+        type: array
+        items:
+          "$ref": "#/definitions/WaterTankerBookingDetail"
+    description: Store booking details
+  MobileToiletBookingDetail:
+    type: object
+    properties:
+      address:
+        "$ref": "#/definitions/Address"
+      applicantDetail:
+        "$ref": "#/definitions/ApplicantDetail"
+      applicantUuid:
+        type: string
+      applicationDate:
+        type: integer
+        format: int64
+      auditDetails:
+        "$ref": "#/definitions/AuditDetails"
+      bookingCreatedBy:
+        type: string
+      bookingId:
+        type: string
+      bookingNo:
+        type: string
+      bookingStatus:
+        type: string
+      deliveryFromDate:
+        "$ref": "#/definitions/LocalDate"
+      deliveryFromTime:
+        "$ref": "#/definitions/LocalTime"
+      deliveryToDate:
+        "$ref": "#/definitions/LocalDate"
+      deliveryToTime:
+        "$ref": "#/definitions/LocalTime"
+      description:
+        type: string
+      driverId:
+        type: string
+      localityCode:
+        type: string
+      mobileNumber:
+        type: string
+      noOfMobileToilet:
+        type: integer
+        format: int32
+      paymentDate:
+        type: integer
+        format: int64
+      paymentReceiptFilestoreId:
+        type: string
+      permissionLetterFilestoreId:
+        type: string
+      receiptNo:
+        type: string
+      tenantId:
+        type: string
+      vehicleCapacity:
+        type: string
+      vehicleId:
+        type: string
+      vehicleType:
+        type: string
+      vendorId:
+        type: string
+      workflow:
+        "$ref": "#/definitions/Workflow"
+    description: Details for new booking of mobile Toilet
+  WaterTankerBookingRequest:
+    type: object
+    properties:
+      RequestInfo:
+        "$ref": "#/definitions/RequestInfo"
+      waterTankerBookingDetail:
+        "$ref": "#/definitions/WaterTankerBookingDetail"
+    description: Request object for creating new booking of water tanker
+  Era:
+    type: object
+    properties:
+      value:
+        type: integer
+        format: int32
+  RequestInfoWrapper:
+    type: object
+    properties:
+      RequestInfo:
+        "$ref": "#/definitions/RequestInfo"
+  ApplicantDetail:
+    type: object
+    properties:
+      alternateNumber:
+        type: string
+      applicantId:
+        type: string
+      auditDetails:
+        "$ref": "#/definitions/AuditDetails"
+      bookingId:
+        type: string
+      emailId:
+        type: string
+      gender:
+        type: string
+      mobileNumber:
+        type: string
+      name:
+        type: string
+    description: Details of the advertisement booking
+  AuditDetails:
+    type: object
+    properties:
+      createdBy:
+        type: string
+      createdTime:
+        type: integer
+        format: int64
+      lastModifiedBy:
+        type: string
+      lastModifiedTime:
+        type: integer
+        format: int64
+  MobileToiletBookingRequest:
+    type: object
+    properties:
+      RequestInfo:
+        "$ref": "#/definitions/RequestInfo"
+      mobileToiletBookingDetail:
+        "$ref": "#/definitions/MobileToiletBookingDetail"
+    description: Request object for creating new booking of mobile Toilet
+  MobileToiletBookingResponse:
+    type: object
+    properties:
+      mobileToiletBookingDetail:
+        "$ref": "#/definitions/MobileToiletBookingDetail"
+      responseInfo:
+        "$ref": "#/definitions/ResponseInfo"
+    description: A Object holds the mobile Toilet for booking
+  PlainAccessRequest:
+    type: object
+    properties:
+      plainRequestFields:
+        type: array
+        items:
+          type: string
+      recordId:
+        type: string

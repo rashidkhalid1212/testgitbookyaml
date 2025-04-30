@@ -1,0 +1,638 @@
+---
+swagger: '2.0'
+info:
+  description: API details of the CND service
+  version: '1.0'
+  title: CND service API
+  license: {}
+host: localhost:8080
+basePath: "/cnd-service"
+tags:
+- name: cnd-controller
+  description: CND Controller
+paths:
+  "/v1/_search":
+    post:
+      tags:
+      - cnd-controller
+      summary: searchCNDApplicationDetails
+      operationId: searchCNDApplicationDetailsUsingPOST
+      consumes:
+      - application/json
+      produces:
+      - "*/*"
+      parameters:
+      - in: body
+        name: requestInfoWrapper
+        description: Details for the CND application time, payment, and documents
+        required: true
+        schema:
+          "$ref": "#/definitions/RequestInfoWrapper"
+      - name: tenantId
+        in: query
+        required: false
+        type: string
+      - name: status
+        in: query
+        required: false
+        type: string
+      - name: applicationNumber
+        in: query
+        required: false
+        type: string
+      - name: mobileNumber
+        in: query
+        required: false
+        type: string
+      - name: locality
+        in: query
+        required: false
+        type: string
+      - name: offset
+        in: query
+        required: false
+        type: integer
+        format: int32
+      - name: limit
+        in: query
+        required: false
+        type: integer
+        format: int32
+      - name: fromDate
+        in: query
+        required: false
+        type: string
+      - name: toDate
+        in: query
+        required: false
+        type: string
+      - name: createdBy
+        in: query
+        required: false
+        type: array
+        items:
+          type: string
+        collectionFormat: multi
+      - name: isUserDetailRequired
+        in: query
+        required: false
+        type: boolean
+      responses:
+        '200':
+          description: OK
+          schema:
+            "$ref": "#/definitions/CNDServiceSearchResponse"
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  "/v1/_update":
+    post:
+      tags:
+      - cnd-controller
+      summary: updateCNDApplicationUpdate
+      operationId: updateCNDApplicationUpdateUsingPOST
+      consumes:
+      - application/json
+      produces:
+      - "*/*"
+      parameters:
+      - in: body
+        name: cndApplicationRequest
+        description: Updated CND details and RequestInfo meta data.
+        required: true
+        schema:
+          "$ref": "#/definitions/CNDApplicationRequest"
+      responses:
+        '200':
+          description: OK
+          schema:
+            "$ref": "#/definitions/CNDApplicationResponse"
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  "/v1/_create":
+    post:
+      tags:
+      - cnd-controller
+      summary: createConstructionDemolitionRequest
+      operationId: createConstructionDemolitionRequestUsingPOST
+      consumes:
+      - application/json
+      produces:
+      - "*/*"
+      parameters:
+      - in: body
+        name: cndApplicationRequest
+        description: Details for the CND application, payment, and documents
+        required: true
+        schema:
+          "$ref": "#/definitions/CNDApplicationRequest"
+      responses:
+        '200':
+          description: OK
+          schema:
+            "$ref": "#/definitions/CNDApplicationResponse"
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+definitions:
+  LocalDateTime:
+    type: object
+    properties:
+      chronology:
+        "$ref": "#/definitions/Chronology"
+      dayOfMonth:
+        type: integer
+        format: int32
+      dayOfWeek:
+        type: string
+        enum:
+        - MONDAY
+        - TUESDAY
+        - WEDNESDAY
+        - THURSDAY
+        - FRIDAY
+        - SATURDAY
+        - SUNDAY
+      dayOfYear:
+        type: integer
+        format: int32
+      hour:
+        type: integer
+        format: int32
+      minute:
+        type: integer
+        format: int32
+      month:
+        type: string
+        enum:
+        - JANUARY
+        - FEBRUARY
+        - MARCH
+        - APRIL
+        - MAY
+        - JUNE
+        - JULY
+        - AUGUST
+        - SEPTEMBER
+        - OCTOBER
+        - NOVEMBER
+        - DECEMBER
+      monthValue:
+        type: integer
+        format: int32
+      nano:
+        type: integer
+        format: int32
+      second:
+        type: integer
+        format: int32
+      year:
+        type: integer
+        format: int32
+  ResponseInfo:
+    type: object
+    properties:
+      apiId:
+        type: string
+      msgId:
+        type: string
+      resMsgId:
+        type: string
+      status:
+        type: string
+        enum:
+        - SUCCESSFUL
+        - FAILED
+      ts:
+        type: integer
+        format: int64
+      ver:
+        type: string
+    description: ResponseInfo should be used to carry metadata information about the
+      response from the server. apiId, ver and msgId in ResponseInfo should always
+      correspond to the same values in respective request's RequestInfo.
+  CNDServiceSearchResponse:
+    type: object
+    properties:
+      ResponseInfo:
+        "$ref": "#/definitions/ResponseInfo"
+      cndApplicationDetail:
+        type: array
+        items:
+          "$ref": "#/definitions/CNDApplicationDetail"
+      count:
+        type: integer
+        format: int32
+    description: Store booking details
+  User:
+    type: object
+    properties:
+      emailId:
+        type: string
+      id:
+        type: integer
+        format: int64
+      mobileNumber:
+        type: string
+      name:
+        type: string
+      roles:
+        type: array
+        items:
+          "$ref": "#/definitions/Role"
+      tenantId:
+        type: string
+      type:
+        type: string
+      userName:
+        type: string
+      uuid:
+        type: string
+  CNDApplicationRequest:
+    type: object
+    properties:
+      RequestInfo:
+        "$ref": "#/definitions/RequestInfo"
+      cndApplication:
+        "$ref": "#/definitions/CNDApplicationDetail"
+  Workflow:
+    type: object
+    properties:
+      action:
+        type: string
+      assignes:
+        type: array
+        items:
+          type: string
+      businessService:
+        type: string
+      comments:
+        type: string
+      documents:
+        type: array
+        items:
+          "$ref": "#/definitions/Document"
+      moduleName:
+        type: string
+      status:
+        type: string
+    description: BPA application object to capture the details of land, land owners,
+      and address of the land.
+  IsoChronology:
+    type: object
+    properties:
+      calendarType:
+        type: string
+      id:
+        type: string
+  CNDAddressDetail:
+    type: object
+    properties:
+      addressLine1:
+        type: string
+      addressLine2:
+        type: string
+      addressType:
+        type: string
+        enum:
+        - PERMANENT
+        - CORRESPONDENCE
+        - OTHER
+      city:
+        type: string
+      floorNumber:
+        type: string
+      houseNumber:
+        type: string
+      landmark:
+        type: string
+      locality:
+        type: string
+      pinCode:
+        type: string
+  CNDApplicantDetail:
+    type: object
+    properties:
+      alternateMobileNumber:
+        type: string
+      emailId:
+        type: string
+      mobileNumber:
+        type: string
+      nameOfApplicant:
+        type: string
+  WasteTypeDetail:
+    type: object
+    properties:
+      applicationId:
+        type: string
+      auditDetails:
+        "$ref": "#/definitions/AuditDetails"
+      enteredByUserType:
+        type: string
+      metrics:
+        type: string
+      quantity:
+        type: number
+        format: double
+      wasteType:
+        type: string
+      wasteTypeId:
+        type: string
+  Document:
+    type: object
+    properties:
+      additionalDetails:
+        type: object
+        description: Json object to capture any extra information which is not accommodated
+          by model
+      auditDetails:
+        "$ref": "#/definitions/AuditDetails"
+      documentType:
+        type: string
+        description: unique document type code, should be validated with document
+          type master
+      documentUid:
+        type: string
+        description: The unique id(Pancard Number,Adhar etc.) of the given Document.
+      fileStoreId:
+        type: string
+        description: File store reference key.
+      id:
+        type: string
+        description: system id of the Document.
+    description: This object holds list of documents attached during the transaciton
+      for a property
+  RequestInfo:
+    type: object
+    properties:
+      action:
+        type: string
+      apiId:
+        type: string
+      authToken:
+        type: string
+      correlationId:
+        type: string
+      did:
+        type: string
+      key:
+        type: string
+      msgId:
+        type: string
+      plainAccessRequest:
+        "$ref": "#/definitions/PlainAccessRequest"
+      ts:
+        type: integer
+        format: int64
+      userInfo:
+        "$ref": "#/definitions/User"
+      ver:
+        type: string
+  LocalDate:
+    type: object
+    properties:
+      chronology:
+        "$ref": "#/definitions/IsoChronology"
+      dayOfMonth:
+        type: integer
+        format: int32
+      dayOfWeek:
+        type: string
+        enum:
+        - MONDAY
+        - TUESDAY
+        - WEDNESDAY
+        - THURSDAY
+        - FRIDAY
+        - SATURDAY
+        - SUNDAY
+      dayOfYear:
+        type: integer
+        format: int32
+      era:
+        "$ref": "#/definitions/Era"
+      leapYear:
+        type: boolean
+      month:
+        type: string
+        enum:
+        - JANUARY
+        - FEBRUARY
+        - MARCH
+        - APRIL
+        - MAY
+        - JUNE
+        - JULY
+        - AUGUST
+        - SEPTEMBER
+        - OCTOBER
+        - NOVEMBER
+        - DECEMBER
+      monthValue:
+        type: integer
+        format: int32
+      year:
+        type: integer
+        format: int32
+  Role:
+    type: object
+    properties:
+      code:
+        type: string
+      id:
+        type: integer
+        format: int64
+      name:
+        type: string
+      tenantId:
+        type: string
+  Era:
+    type: object
+    properties:
+      value:
+        type: integer
+        format: int32
+  RequestInfoWrapper:
+    type: object
+    properties:
+      RequestInfo:
+        "$ref": "#/definitions/RequestInfo"
+  CNDApplicationResponse:
+    type: object
+    properties:
+      cndApplicationDetails:
+        "$ref": "#/definitions/CNDApplicationDetail"
+      responseInfo:
+        "$ref": "#/definitions/ResponseInfo"
+    description: Store registration details
+  DocumentDetail:
+    type: object
+    properties:
+      applicationId:
+        type: string
+      auditDetails:
+        "$ref": "#/definitions/AuditDetails"
+      documentDetailId:
+        type: string
+      documentType:
+        type: string
+      fileStoreId:
+        type: string
+      uploadedByUserType:
+        type: string
+    description: Document details of uploaded documents
+  FacilityCenterDetail:
+    type: object
+    properties:
+      applicationId:
+        type: string
+      auditDetails:
+        "$ref": "#/definitions/AuditDetails"
+      disposalDate:
+        "$ref": "#/definitions/LocalDateTime"
+      disposalId:
+        type: string
+      disposalType:
+        type: string
+      dumpingStationName:
+        type: string
+      grossWeight:
+        type: number
+        format: double
+      nameOfDisposalSite:
+        type: string
+      netWeight:
+        type: number
+        format: double
+      vehicleDepotNo:
+        type: string
+      vehicleId:
+        type: string
+  AuditDetails:
+    type: object
+    properties:
+      createdBy:
+        type: string
+      createdTime:
+        type: integer
+        format: int64
+      lastModifiedBy:
+        type: string
+      lastModifiedTime:
+        type: integer
+        format: int64
+  Chronology:
+    type: object
+    properties:
+      calendarType:
+        type: string
+      id:
+        type: string
+  PlainAccessRequest:
+    type: object
+    properties:
+      plainRequestFields:
+        type: array
+        items:
+          type: string
+      recordId:
+        type: string
+  CNDApplicationDetail:
+    type: object
+    properties:
+      additionalDetails:
+        type: object
+      addressDetail:
+        "$ref": "#/definitions/CNDAddressDetail"
+      addressDetailId:
+        type: string
+      applicantDetail:
+        "$ref": "#/definitions/CNDApplicantDetail"
+      applicantDetailId:
+        type: string
+      applicantMobileNumber:
+        type: string
+      applicationId:
+        type: string
+      applicationNumber:
+        type: string
+      applicationStatus:
+        type: string
+      applicationType:
+        type: string
+        enum:
+        - REQUEST_FOR_PICKUP
+        - DEPOSIT_TO_THE_CENTER
+      auditDetails:
+        "$ref": "#/definitions/AuditDetails"
+      completedOn:
+        "$ref": "#/definitions/LocalDateTime"
+      constructionFromDate:
+        "$ref": "#/definitions/LocalDate"
+      constructionToDate:
+        "$ref": "#/definitions/LocalDate"
+      depositCentreDetails:
+        type: string
+      description:
+        type: string
+      documentDetails:
+        type: array
+        items:
+          "$ref": "#/definitions/DocumentDetail"
+      facilityCenterDetail:
+        "$ref": "#/definitions/FacilityCenterDetail"
+      houseArea:
+        type: integer
+        format: int64
+      locality:
+        type: string
+      noOfTrips:
+        type: integer
+        format: int32
+      pickupDate:
+        "$ref": "#/definitions/LocalDate"
+      propertyType:
+        type: string
+      quantity:
+        type: integer
+        format: int32
+      requestedPickupDate:
+        "$ref": "#/definitions/LocalDate"
+      tenantId:
+        type: string
+      totalWasteQuantity:
+        type: number
+        format: double
+      typeOfConstruction:
+        type: string
+      vehicleId:
+        type: string
+      vehicleType:
+        type: string
+      vendorId:
+        type: string
+      wasteType:
+        type: string
+      wasteTypeDetails:
+        type: array
+        items:
+          "$ref": "#/definitions/WasteTypeDetail"
+      workflow:
+        "$ref": "#/definitions/Workflow"
